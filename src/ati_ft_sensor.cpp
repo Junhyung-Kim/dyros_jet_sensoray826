@@ -229,7 +229,7 @@ public:
         sensoray826_dev::open();
         sensoray826_dev::analogSingleSamplePrepare(slotAttrs, 16);
         sensoray826_dev::encoderInitialize(0);
-      //  sensoray826_dev::encoderInitialize(1);
+        sensoray826_dev::encoderInitialize(1);
 
     }   
 
