@@ -69,14 +69,17 @@ add_executable(ati_ft_sensor_node src/ati_ft_sensor.cpp)
 #)
 
 ## Specify libraries to link a library or executable target against
-
+#set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+#set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 target_link_libraries(sensoray826
-  -l826_64
-  ${catkin_LIBRARIES}
+ ${CMAKE_CURRENT_SOURCE_DIR}/lib/
+ ${catkin_LIBRARIES}
 )
 target_link_libraries(ati_ft_sensor_node
   sensoray826
+ ${CMAKE_CURRENT_SOURCE_DIR}/lib/lib826_64.a
   ${catkin_LIBRARIES}
 )
 

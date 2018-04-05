@@ -5,9 +5,8 @@
 void sensoray826_dev::open()
 {
     boardflags = S826_SystemOpen();
-
     if (boardflags < 0)
-        errcode = boardflags;                       // problem during open
+        errcode = boardflags; // problem during open
     else if ((boardflags & (1 << board)) == 0) {
         int i;
         ROS_ERROR("TARGET BOARD of index %d NOT FOUND\n",board);         // driver didn't find board you want to use
@@ -22,7 +21,7 @@ void sensoray826_dev::open()
         for (int i = 0; i < 8; i++) {
             if (boardflags & (1 << i)) {
                 ROS_INFO("board %d detected." , i);
-            }
+             }
         }
         isOpen = true;
     }
@@ -122,11 +121,18 @@ void sensoray826_dev::analogSampleLoopThread()
         boost::this_thread::sleep(boost::posix_time::milliseconds(1));
     }
 }
+void sensoray826_dev::encoderInitialize(int board)
+{
+  for(int i=0; i<6; i++)
+  {
+    S826_CounterModeWrite(board, i, S826_CM_K_QUADX4);
+    S826_CounterStateWrite(board, i, 1);
+  }
+}
 void sensoray826_dev::encoderRawData(int board, int counter, uint &counts)
 {
-  S826_CounterModeWrite(board, counter, S826_CM_K_QUADX4);
-  S826_CounterStateWrite(board, counter, 1);
   S826_CounterRead(board, counter, &counts);
+  printf("Encoder counts = %d\n", counts);
 }
 void sensoray826_dev::multipleEncoder(std::vector<double> &leg_q, const double cnt_rad)
 {
@@ -143,6 +149,6 @@ void sensoray826_dev::multipleEncoder(std::vector<double> &leg_q, const double c
   {
     encoderRawData(1, i, r_leg);
     r_leg1 = cnt_rad * r_leg;
-    leg_q[i+6] = l_leg1;
+    leg_q[i+6] = r_leg1;
   }
 }

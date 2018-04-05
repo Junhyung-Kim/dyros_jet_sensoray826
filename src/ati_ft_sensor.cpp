@@ -57,6 +57,7 @@ class atiFTSensorROS : public sensoray826_dev
     std::vector<double> q;
     std::vector<double> qdot;
     std::vector<double> leg_q;
+    uint count1;
     int sync = 0;
 
     const int LEFT_LEG_START_NUM = 0;
@@ -227,7 +228,10 @@ public:
         // daq open
         sensoray826_dev::open();
         sensoray826_dev::analogSingleSamplePrepare(slotAttrs, 16);
-    }
+        sensoray826_dev::encoderInitialize(0);
+      //  sensoray826_dev::encoderInitialize(1);
+
+    }   
 
     void loop()
     {
@@ -291,7 +295,6 @@ int main(int argc, char** argv) {
     ROS_INFO("DAQ Initialize ...");
     for(int i=0; i<SAMPLE_RATE; i++)
         r.sleep();
-    
     ROS_INFO("DAQ Initialize Done. Streaming started.");
     while(ros::ok())
     {

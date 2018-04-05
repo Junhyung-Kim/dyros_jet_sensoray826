@@ -84,6 +84,7 @@ public:
         return (tau*prev + ts*input)/(tau+ts);
     }
 
+    void encoderInitialize(int board);
     void encoderRawData(int board, int counter, uint &counts);
     void multipleEncoder(std::vector<double> &leg_q, const double cnt_rad);
 
