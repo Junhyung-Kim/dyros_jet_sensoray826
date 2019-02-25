@@ -132,7 +132,7 @@ void sensoray826_dev::encoderInitialize(int board)
 void sensoray826_dev::encoderRawData(int board, int counter, uint &counts)
 {
   S826_CounterRead(board, counter, &counts);
-  printf("Encoder counts = %d\n", counts);
+
 }
 void sensoray826_dev::multipleEncoder(std::vector<double> &leg_q, const double cnt_rad)
 {
@@ -143,12 +143,20 @@ void sensoray826_dev::multipleEncoder(std::vector<double> &leg_q, const double c
   {
     encoderRawData(0, i, l_leg);
     l_leg1 = cnt_rad * l_leg;
+    if(l_leg1 >= 27451.738660278/2) //Prevent range of uint Overflow
+    {
+      l_leg1 = l_leg1-27451.655486088;
+    }
     leg_q[i] = l_leg1;
   }
   for (int i=0; i<6; i++)
   {
     encoderRawData(1, i, r_leg);
     r_leg1 = cnt_rad * r_leg;
+    if(r_leg1 >= 27451.655486088/2) //Prevent range of uint Overflow
+    {
+      r_leg1 = r_leg1-27451.655486088;
+    }
     leg_q[i+6] = r_leg1;
   }
 }

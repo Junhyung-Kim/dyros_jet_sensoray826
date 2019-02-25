@@ -17,7 +17,7 @@
 
 using namespace std;
 
-const double SAMPLE_RATE = 1000; // Hz
+const double SAMPLE_RATE = 200; // Hz
 
 enum SLOT_TIME {NONE = 0, DEFAULT = 50};
 
@@ -238,16 +238,8 @@ public:
         analogOversample();
         computeFTData();
         publishFTData();
-        if (sync % 5 == 0)
-        {
-          multipleEncoder(leg_q, RAD_PER_CNT);
-          joint_publish();
-          sync = sync + 1;
-        }
-        else
-        {
-         sync = sync + 1;
-        }
+        multipleEncoder(leg_q, RAD_PER_CNT);
+        joint_publish();
     }
 
 };
